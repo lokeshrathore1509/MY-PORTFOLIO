@@ -50,6 +50,20 @@ app.use(cookieParser());
 // Serve static uploads
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
+// Root API Status
+app.get('/', (req, res) => {
+  res.status(200).send(`
+    <div style="font-family: system-ui, sans-serif; background: #050811; color: #fff; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 20px;">
+      <h1 style="color: #38bdf8; margin-bottom: 10px;">🚀 Portfolio Backend API is Running Live!</h1>
+      <p style="color: #94a3b8; max-width: 500px; line-height: 1.6;">This is the REST API server for Lokesh Kumar Rathore's Developer Portfolio. Frontend client is deployed separately on Vercel.</p>
+      <div style="margin-top: 20px;">
+        <a href="/api/projects" style="display: inline-block; padding: 10px 20px; background: #3b82f6; color: #fff; text-decoration: none; border-radius: 8px; font-weight: 500; margin: 5px;">View Projects API</a>
+        <a href="/api/health" style="display: inline-block; padding: 10px 20px; background: #1e293b; color: #fff; text-decoration: none; border-radius: 8px; font-weight: 500; margin: 5px;">Health Check</a>
+      </div>
+    </div>
+  `);
+});
+
 // Health check endpoint
 app.get('/api/health', (req, res) => {
   res.status(200).json({
