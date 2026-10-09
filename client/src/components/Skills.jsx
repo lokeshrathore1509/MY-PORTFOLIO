@@ -117,7 +117,7 @@ export const Skills = () => {
 
         {/* Skills Category Blocks */}
         <div className="flex flex-col gap-12">
-          <AnimatePresence mode="wait">
+          <AnimatePresence>
             {filteredCategories.map((group, groupIdx) => (
               <motion.div
                 key={group.category}
