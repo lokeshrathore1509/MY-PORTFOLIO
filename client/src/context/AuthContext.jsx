@@ -30,6 +30,9 @@ export const AuthProvider = ({ children }) => {
   const login = async (email, password) => {
     const data = await authAPI.login({ email, password });
     if (data.success && data.user) {
+      if (data.token) {
+        localStorage.setItem('admin_token', data.token);
+      }
       setAdmin(data.user);
       return data;
     }
@@ -40,6 +43,7 @@ export const AuthProvider = ({ children }) => {
     try {
       await authAPI.logout();
     } finally {
+      localStorage.removeItem('admin_token');
       setAdmin(null);
     }
   };

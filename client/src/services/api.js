@@ -1,6 +1,24 @@
 import axios from 'axios';
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+// Smart API URL resolution:
+// 1. If explicit env variable is provided (VITE_API_URL), use it.
+// 2. If running on Vercel or any live domain, use the deployed Render backend.
+// 3. Otherwise (local development), use local backend on port 5000.
+const getApiBaseUrl = () => {
+  if (import.meta.env.VITE_API_URL) {
+    return import.meta.env.VITE_API_URL;
+  }
+  if (
+    typeof window !== 'undefined' &&
+    window.location.hostname !== 'localhost' &&
+    window.location.hostname !== '127.0.0.1'
+  ) {
+    return 'https://my-portfolio-bnvb.onrender.com/api';
+  }
+  return 'http://localhost:5000/api';
+};
+
+const API_BASE_URL = getApiBaseUrl();
 
 const api = axios.create({
   baseURL: API_BASE_URL,
@@ -10,15 +28,34 @@ const api = axios.create({
   },
 });
 
+// Request interceptor to attach Bearer token if present
+api.interceptors.request.use((config) => {
+  if (typeof window !== 'undefined') {
+    const token = localStorage.getItem('admin_token');
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+  }
+  return config;
+});
+
 // Response interceptor for consistent error messaging
 api.interceptors.response.use(
   (response) => response,
   (error) => {
-    const message =
-      error.response?.data?.message ||
-      error.message ||
-      'An unexpected network error occurred.';
-    return Promise.reject(new Error(message));
+    // If backend returned a clear validation/auth error message
+    if (error.response?.data?.message) {
+      return Promise.reject(new Error(error.response.data.message));
+    }
+    // If server is waking up from sleep or network error
+    if (error.message === 'Network Error') {
+      return Promise.reject(
+        new Error(
+          'Network Error: Unable to connect to the backend server. The free cloud server may be waking up (takes ~30s on Render) or the backend URL is unreachable.'
+        )
+      );
+    }
+    return Promise.reject(new Error(error.message || 'An unexpected error occurred.'));
   }
 );
 

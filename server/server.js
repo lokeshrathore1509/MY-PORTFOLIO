@@ -17,30 +17,21 @@ const PORT = process.env.PORT || 5000;
 // Initialize Database
 connectDB();
 
-// CORS configuration supporting credentials (cookies)
-const allowedOrigins = [
-  'http://localhost:5173',
-  'http://localhost:5174',
-  'http://localhost:3000',
-  'http://127.0.0.1:5173',
-  process.env.CLIENT_URL,
-].filter(Boolean);
-
+// CORS configuration supporting credentials (cookies & Bearer tokens)
 app.use(
   cors({
     origin: (origin, callback) => {
-      // Allow requests with no origin (like mobile apps, curl, postman) or if origin is in whitelist
-      if (!origin || allowedOrigins.includes(origin) || process.env.NODE_ENV !== 'production') {
-        callback(null, true);
-      } else {
-        callback(new Error('Not allowed by CORS policy'));
-      }
+      // Dynamically reflect request origin to support all Vercel domains, localhost, and custom domains
+      callback(null, true);
     },
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept'],
   })
 );
+
+// Enable pre-flight across-the-board
+app.options('*', cors());
 
 // Body parsers and cookie parser
 app.use(express.json({ limit: '10mb' }));
