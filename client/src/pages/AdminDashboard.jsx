@@ -87,7 +87,6 @@ export const AdminDashboard = () => {
   const loadDashboardData = async () => {
     try {
       setIsLoading(true);
-      const [projRes, msgRes, setRes] = useState();
 
       const projectsData = await projectsAPI.getAll(true);
       if (projectsData.success) {
