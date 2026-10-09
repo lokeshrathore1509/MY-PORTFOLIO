@@ -268,7 +268,7 @@ export const Hero = () => {
                       <span className="text-slate-400">featuredProjects:</span> [
                     </p>
                     <p className="pl-8 text-sky-300">
-                      "Wanderlust (Full-Stack)", "NovaFood (React)", "Finance Dashboard"
+                      "Wanderlust (Full-Stack)", "NovaFood (React)", "Recipe Finder"
                     </p>
                     <p className="pl-4">],</p>
                     <p className="pl-4">

@@ -54,60 +54,6 @@ const initialProjects = [
     }
   },
   {
-    title: "Interactive Finance Dashboard",
-    slug: "finance-dashboard",
-    shortDescription: "A modern financial analytics and tracking dashboard providing real-time data visualization, balance calculation, and expense tracking.",
-    category: "React",
-    technologies: ["React.js", "Chart.js", "Tailwind CSS", "JavaScript", "Vercel"],
-    image: "/project-finance.png",
-    liveUrl: "https://finance-app-project-glaxv3w5s-lokeshrathore1509s-projects.vercel.app/",
-    githubUrl: "https://github.com/lokeshrathore1509/finance-app.git",
-    featured: true,
-    isPublished: true,
-    displayOrder: 3,
-    details: {
-      overview: "An intuitive web application designed to help individuals monitor financial inflows, recurring outlays, and budget allocations using responsive graphs and analytics cards.",
-      problem: "Users frequently find personal finance tracking tedious when dealing with static spreadsheets, leading to lack of visibility into daily expenditures.",
-      solution: "Engineered an interactive dashboard interface that dynamically updates summaries, generates graphical trends, and gives users immediate visual insights into their cash flow.",
-      features: [
-        "Interactive visual charts and statistics for financial trend analysis",
-        "Real-time expense categorization and balance calculation",
-        "Dynamic card summaries for Income, Expenses, and Net Savings",
-        "Fully responsive layout optimized for mobile and desktop screens",
-        "Quick transaction entry with instant client-side updates"
-      ],
-      role: "Frontend Developer",
-      timeline: "2026"
-    }
-  },
-  {
-    title: "Real-Time Weather App",
-    slug: "weather-app",
-    shortDescription: "A sleek, responsive weather application delivering real-time forecasts, atmospheric metrics, and dynamic city lookups using public meteorological APIs.",
-    category: "Frontend",
-    technologies: ["React.js", "OpenWeather API", "CSS3", "JavaScript", "Vercel"],
-    image: "/project-weather.png",
-    liveUrl: "https://weather-app-react-8ljp03xki-lokeshrathore1509s-projects.vercel.app/",
-    githubUrl: "https://github.com/lokeshrathore1509/weather-app-react.git",
-    featured: true,
-    isPublished: true,
-    displayOrder: 4,
-    details: {
-      overview: "A clean, live weather dashboard that enables users worldwide to search any city and instantly obtain atmospheric conditions, humidity, wind speeds, and temperature trends.",
-      problem: "Most weather websites are cluttered with intrusive advertisements, slow to load, and cumbersome for a quick lookup on mobile devices.",
-      solution: "Built a lightweight, focused single-page application using React hooks for responsive state management, fetching live meteorological data with fast caching.",
-      features: [
-        "Live temperature, humidity, wind speed, and visibility indicators",
-        "Instant city search with intelligent query handling and error states",
-        "Dynamic weather condition icons matched to local sky status",
-        "State management handled seamlessly via React useState and useEffect",
-        "Deployed to Vercel for high global availability"
-      ],
-      role: "Frontend Developer",
-      timeline: "2026"
-    }
-  },
-  {
     title: "Dynamic Recipe Finder",
     slug: "recipe-finder",
     shortDescription: "Interactive culinary discovery web app fetching thousands of global recipes, step-by-step cooking instructions, and ingredient breakdowns.",
@@ -116,9 +62,9 @@ const initialProjects = [
     image: "/project-recipe.png",
     liveUrl: "https://lokeshrathore1509.github.io/recipie-project-/",
     githubUrl: "https://github.com/lokeshrathore1509/recipie-project-.git",
-    featured: false,
+    featured: true,
     isPublished: true,
-    displayOrder: 5,
+    displayOrder: 3,
     details: {
       overview: "A responsive culinary web application that connects with a public recipe database to help food enthusiasts discover new meal inspirations based on available ingredients.",
       problem: "Finding quick recipes online often leads to ad-heavy pages without structured ingredient lists or direct preparation steps.",
