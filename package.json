@@ -1,0 +1,13 @@
+{
+  "name": "lokesh-portfolio-fullstack",
+  "version": "1.0.0",
+  "description": "Production-Grade Developer Portfolio for Lokesh Kumar Rathore (MERN Stack + Vite React)",
+  "scripts": {
+    "dev:server": "cd server && node server.js",
+    "dev:client": "cd client && npm run dev",
+    "seed": "cd server && node seed/seedAll.js",
+    "build:client": "cd client && npm run build"
+  },
+  "author": "Lokesh Kumar Rathore",
+  "license": "ISC"
+}

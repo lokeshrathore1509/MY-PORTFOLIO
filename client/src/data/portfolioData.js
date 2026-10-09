@@ -1,0 +1,268 @@
+export const initialProjectsData = [
+  {
+    _id: "wanderlust",
+    title: "Wanderlust",
+    slug: "wanderlust",
+    category: "Full Stack",
+    shortDescription: "Developed a full-stack property listing application using MVC architecture, with CRUD operations, image uploads, authentication, authorization, ownership-based access control, server-side validation, and error handling.",
+    technologies: ["Node.js", "Express.js", "MongoDB", "EJS", "Multer", "Cloudinary", "Passport.js", "JavaScript", "Bootstrap"],
+    image: "/wanderlust.jpg",
+    githubUrl: "https://github.com/lokeshrathore1509",
+    liveUrl: "https://github.com/lokeshrathore1509",
+    featured: true,
+    isPublished: true,
+    displayOrder: 1,
+    details: {
+      overview: "A full-featured property listing and travel rental platform engineered with the Model-View-Controller architecture. It enables users to browse, publish, review, and manage destinations worldwide.",
+      problem: "Vacation seekers and property hosts need a reliable platform to exchange rental opportunities with guaranteed ownership protection, media management, and verified community reviews.",
+      solution: "Architected a scalable server-rendered web application with Express.js and MongoDB. Integrated Cloudinary for media storage, implemented Passport.js session authentication, and built fine-grained ownership authorization.",
+      features: [
+        "Full CRUD operations for property listings with Cloudinary media storage",
+        "Secure user authentication, registration, and authorization with Passport.js",
+        "Ownership-based access controls preventing unauthorized listing edits",
+        "Interactive reviews and rating system with server-side validation",
+        "Responsive, mobile-first design with clean flash notification feedback"
+      ],
+      role: "Full-Stack Developer",
+      timeline: "2025"
+    }
+  },
+  {
+    _id: "novafood",
+    title: "NovaFood",
+    slug: "novafood",
+    category: "React",
+    shortDescription: "Built a responsive food ordering application with reusable React components, cart management, favorites, search, checkout, and order-related features.",
+    technologies: ["React.js", "JavaScript", "React Router", "Context API", "Tailwind CSS", "LocalStorage", "Vite"],
+    image: "/novafood.jpg",
+    githubUrl: "https://github.com/lokeshrathore1509",
+    liveUrl: "https://github.com/lokeshrathore1509",
+    featured: true,
+    isPublished: true,
+    displayOrder: 2,
+    details: {
+      overview: "NovaFood is an ultra-fast, responsive online food ordering interface featuring a modern dark aesthetic, instant dish categorization, and seamless cart state synchronization.",
+      problem: "Traditional restaurant apps often feature slow page transitions, disjointed cart experiences, and inconsistent mobile layouts.",
+      solution: "Developed an optimized single page application using React Context for global cart management and LocalStorage for persistent user state across sessions.",
+      features: [
+        "Real-time cart addition, quantity updates, and dynamic price totals",
+        "Wishlist / favorites system saved locally for quick re-ordering",
+        "Instant category filtering (Burgers, Ramen, Sushi, Healthy)",
+        "Search bar with live filtering across dishes and cuisines",
+        "Interactive checkout drawer with delivery calculations and order summary"
+      ],
+      role: "Frontend Developer",
+      timeline: "2025"
+    }
+  },
+  {
+    _id: "finance-dashboard",
+    title: "Interactive Finance Dashboard",
+    slug: "finance-dashboard",
+    category: "React",
+    shortDescription: "A modern financial analytics and tracking dashboard providing real-time data visualization, balance calculation, and expense tracking.",
+    technologies: ["React.js", "Chart.js", "Tailwind CSS", "JavaScript", "Vercel"],
+    image: "/project-finance.png",
+    githubUrl: "https://github.com/lokeshrathore1509/finance-app.git",
+    liveUrl: "https://finance-app-project-glaxv3w5s-lokeshrathore1509s-projects.vercel.app/",
+    featured: true,
+    isPublished: true,
+    displayOrder: 3,
+    details: {
+      overview: "An intuitive web application designed to help individuals monitor financial inflows, recurring outlays, and budget allocations using responsive graphs and analytics cards.",
+      problem: "Users frequently find personal finance tracking tedious when dealing with static spreadsheets, leading to lack of visibility into daily expenditures.",
+      solution: "Engineered an interactive dashboard interface that dynamically updates summaries, generates graphical trends, and gives users immediate visual insights into their cash flow.",
+      features: [
+        "Interactive visual charts and statistics for financial trend analysis",
+        "Real-time expense categorization and balance calculation",
+        "Dynamic card summaries for Income, Expenses, and Net Savings",
+        "Fully responsive layout optimized for mobile and desktop screens",
+        "Quick transaction entry with instant client-side updates"
+      ],
+      role: "Frontend Developer",
+      timeline: "2026"
+    }
+  },
+  {
+    _id: "weather-app",
+    title: "Real-Time Weather App",
+    slug: "weather-app",
+    category: "Frontend",
+    shortDescription: "A sleek, responsive weather application delivering real-time forecasts, atmospheric metrics, and dynamic city lookups using public meteorological APIs.",
+    technologies: ["React.js", "OpenWeather API", "CSS3", "JavaScript", "Vercel"],
+    image: "/project-weather.png",
+    githubUrl: "https://github.com/lokeshrathore1509/weather-app-react.git",
+    liveUrl: "https://weather-app-react-8ljp03xki-lokeshrathore1509s-projects.vercel.app/",
+    featured: true,
+    isPublished: true,
+    displayOrder: 4,
+    details: {
+      overview: "A clean, live weather dashboard that enables users worldwide to search any city and instantly obtain atmospheric conditions, humidity, wind speeds, and temperature trends.",
+      problem: "Most weather websites are cluttered with intrusive advertisements, slow to load, and cumbersome for a quick lookup on mobile devices.",
+      solution: "Built a lightweight, focused single-page application using React hooks for responsive state management, fetching live meteorological data with fast caching.",
+      features: [
+        "Live temperature, humidity, wind speed, and visibility indicators",
+        "Instant city search with intelligent query handling and error states",
+        "Dynamic weather condition icons matched to local sky status",
+        "State management handled seamlessly via React useState and useEffect",
+        "Deployed to Vercel for high global availability"
+      ],
+      role: "Frontend Developer",
+      timeline: "2026"
+    }
+  },
+  {
+    _id: "recipe-finder",
+    title: "Dynamic Recipe Finder",
+    slug: "recipe-finder",
+    category: "Frontend",
+    shortDescription: "Interactive culinary discovery web app fetching thousands of global recipes, step-by-step cooking instructions, and ingredient breakdowns.",
+    technologies: ["JavaScript (ES6+)", "Recipe API", "HTML5", "CSS3", "GitHub Pages"],
+    image: "/project-recipe.png",
+    githubUrl: "https://github.com/lokeshrathore1509/recipie-project-.git",
+    liveUrl: "https://lokeshrathore1509.github.io/recipie-project-/",
+    featured: false,
+    isPublished: true,
+    displayOrder: 5,
+    details: {
+      overview: "A responsive culinary web application that connects with a public recipe database to help food enthusiasts discover new meal inspirations based on available ingredients.",
+      problem: "Finding quick recipes online often leads to ad-heavy pages without structured ingredient lists or direct preparation steps.",
+      solution: "Created a pure JavaScript application that executes asynchronous API queries, rendering formatted recipe cards with ingredients, images, and cooking guides dynamically in the DOM.",
+      features: [
+        "Real-time search query matching with debounced input",
+        "Dynamic modal popup with full ingredient checklists and instructions",
+        "Zero external runtime framework dependencies for maximum performance",
+        "Graceful fallback screens when no recipes match search criteria",
+        "Mobile-first responsive flexbox and grid styling"
+      ],
+      role: "Frontend Developer",
+      timeline: "2025"
+    }
+  }
+];
+
+export const skillsData = [
+  {
+    category: "Frontend",
+    title: "Frontend Development",
+    description: "Building responsive, accessible, pixel-perfect user interfaces with modern component architectures.",
+    skills: [
+      { name: "HTML5", icon: "html5", tag: "Semantic Markup" },
+      { name: "CSS3", icon: "css3", tag: "Modern Styling" },
+      { name: "JavaScript", icon: "javascript", tag: "ES6+ Core" },
+      { name: "React.js", icon: "react", tag: "Hooks & Architecture" },
+      { name: "React Router", icon: "reactrouter", tag: "Client Routing" },
+      { name: "Redux Toolkit", icon: "redux", tag: "Global State" },
+      { name: "Tailwind CSS", icon: "tailwindcss", tag: "Utility First" },
+      { name: "Bootstrap", icon: "bootstrap", tag: "Responsive UI" },
+      { name: "Responsive Web Design", icon: "chrome", tag: "Cross-Device" },
+      { name: "Flexbox & CSS Grid", icon: "layout", tag: "Advanced Layouts" },
+    ]
+  },
+  {
+    category: "Backend",
+    title: "Backend Development",
+    description: "Architecting modular server-side applications, REST APIs, and authentication mechanisms.",
+    skills: [
+      { name: "Node.js", icon: "nodejs", tag: "Runtime" },
+      { name: "Express.js", icon: "express", tag: "Web Framework" },
+      { name: "REST API Development", icon: "server", tag: "API Design" },
+      { name: "Authentication & Authorization", icon: "shield", tag: "Security" },
+      { name: "JWT", icon: "key", tag: "Token Security" },
+      { name: "HTTP-only Cookies", icon: "cookie", tag: "Session Guard" },
+      { name: "Passport.js", icon: "usercheck", tag: "Auth Strategies" },
+      { name: "MVC Architecture", icon: "layers", tag: "Design Pattern" },
+    ]
+  },
+  {
+    category: "Database",
+    title: "Database Management",
+    description: "Modeling performant document schemas, relational structures, and persistent data layers.",
+    skills: [
+      { name: "MongoDB", icon: "mongodb", tag: "NoSQL Database" },
+      { name: "Mongoose", icon: "database", tag: "Schema & ODM" },
+      { name: "SQL", icon: "mysql", tag: "Relational Queries" },
+    ]
+  },
+  {
+    category: "Tools",
+    title: "Tools & Workflow",
+    description: "Leveraging modern developer tools, version control, and cloud media services for efficient delivery.",
+    skills: [
+      { name: "Git", icon: "git", tag: "Version Control" },
+      { name: "GitHub", icon: "github", tag: "Collaboration & CI" },
+      { name: "VS Code", icon: "vscode", tag: "Development IDE" },
+      { name: "Cloudinary", icon: "cloud", tag: "Media Management" },
+      { name: "Postman", icon: "postman", tag: "API Verification" },
+    ]
+  }
+];
+
+export const experienceData = [
+  {
+    id: "edunet",
+    role: "Frontend Web Development Intern",
+    company: "Edunet Foundation (AICTE Collaboration)",
+    duration: "August 2025 – September 2025",
+    type: "Internship",
+    description: "Completed an intensive 6-week technical internship focused on modern Front-End Web Development and industry best practices.",
+    highlights: [
+      "Built responsive, mobile-first web interfaces utilizing HTML5, CSS3, and modern JavaScript.",
+      "Implemented modern UI design principles, flexible grid systems, and accessible components.",
+      "Optimized website loading speeds and enhanced user experience through clean, well-documented code."
+    ],
+    technologies: ["HTML5", "CSS3", "JavaScript", "Responsive Design", "Bootstrap", "Git"]
+  },
+  {
+    id: "codsoft",
+    role: "Web Development Intern",
+    company: "CodSoft",
+    duration: "July 2025 – August 2025",
+    type: "Internship",
+    description: "Completed a 4-week virtual development internship delivering real-world web development tasks and interactive web modules.",
+    highlights: [
+      "Developed interactive, responsive web interfaces with custom layout animations.",
+      "Deepened understanding of DOM manipulation, asynchronous JavaScript, and cross-browser testing.",
+      "Practiced version control workflows and feature branching with Git and GitHub."
+    ],
+    technologies: ["HTML5", "CSS3", "JavaScript", "UI Design", "GitHub"]
+  }
+];
+
+export const educationData = [
+  {
+    id: "btech-iimt",
+    degree: "B.Tech in Artificial Intelligence and Data Science",
+    institution: "IIMT College of Engineering",
+    location: "Greater Noida, Uttar Pradesh",
+    duration: "August 2022 – May 2026",
+    status: "Graduation: May 2026",
+    details: [
+      "Core Foundations: Data Structures & Algorithms, Object-Oriented Programming, Database Management Systems, Web Technologies.",
+      "Applied AI & Analytical Thinking: Machine Learning Foundations, Data Analytics, and Intelligent Web Applications.",
+      "Active participation in campus coding challenges, technical seminars, and collaborative software projects."
+    ]
+  }
+];
+
+export const personalInfo = {
+  name: "Lokesh Kumar Rathore",
+  title: "Frontend Developer | React.js | Full-Stack Web Development",
+  headline: "Building Modern Web Experiences That Make an Impact.",
+  shortDescription: "I build responsive, interactive, and user-focused web applications using modern frontend technologies and full-stack tools.",
+  email: "lokeshrathore1509@gmail.com",
+  phone: "+91 8318585916",
+  location: "Greater Noida, India",
+  degree: "B.Tech in Artificial Intelligence and Data Science",
+  college: "IIMT College of Engineering, Greater Noida",
+  graduation: "May 2026",
+  resumePath: "/assets/Lokesh_Kumar_Rathore_Resume.pdf",
+  resumeDownloadName: "Lokesh_Kumar_Rathore_Resume.pdf",
+  socialLinks: {
+    github: "https://github.com/lokeshrathore1509",
+    linkedin: "https://www.linkedin.com/in/lokeshrathore/",
+    email: "mailto:lokeshrathore1509@gmail.com",
+  },
+  availabilityText: "Available for new opportunities",
+  isAvailable: true,
+};
