@@ -1,4 +1,12 @@
 const mongoose = require('mongoose');
+const dns = require('dns');
+
+// Configure public DNS servers to prevent querySrv ECONNREFUSED issues on local Windows networks
+try {
+  dns.setServers(['8.8.8.8', '8.8.4.4', '1.1.1.1']);
+} catch (e) {
+  // Ignore in environments where setting DNS servers is restricted
+}
 
 let isConnected = false;
 
@@ -9,7 +17,7 @@ const connectDB = async () => {
   
   try {
     const conn = await mongoose.connect(mongoURI, {
-      serverSelectionTimeoutMS: 5000,
+      serverSelectionTimeoutMS: 8000,
     });
     isConnected = true;
     console.log(` MongoDB Connected: ${conn.connection.host}`);
