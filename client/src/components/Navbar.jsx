@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, Shield, Lock, ArrowUpRight, Code2 } from 'lucide-react';
-import { useAuth } from '../context/AuthContext';
+import { Menu, X, ArrowUpRight } from 'lucide-react';
 
 export const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -91,26 +90,6 @@ export const Navbar = () => {
 
           {/* Right Action Buttons */}
           <div className="hidden md:flex items-center gap-3">
-            {/* Admin Link / Icon */}
-            <Link
-              to={isAuthenticated ? "/admin/dashboard" : "/admin/login"}
-              className="p-2 rounded-xl text-slate-400 hover:text-accent-sky hover:bg-white/5 border border-transparent hover:border-accent-sky/20 transition-all flex items-center gap-1.5 text-xs font-mono"
-              title={isAuthenticated ? "Admin Dashboard" : "Admin Login"}
-              id="nav-admin-link"
-            >
-              {isAuthenticated ? (
-                <>
-                  <Shield className="w-4 h-4 text-emerald-400" />
-                  <span className="text-emerald-400 font-medium">Dashboard</span>
-                </>
-              ) : (
-                <>
-                  <Lock className="w-4 h-4" />
-                  <span>Admin</span>
-                </>
-              )}
-            </Link>
-
             {/* Let's Talk CTA */}
             <a
               href={isHomePage ? "#contact" : "/#contact"}
@@ -128,18 +107,6 @@ export const Navbar = () => {
 
           {/* Mobile Hamburger Button */}
           <div className="flex md:hidden items-center gap-2">
-            <Link
-              to={isAuthenticated ? "/admin/dashboard" : "/admin/login"}
-              className="p-2 text-slate-400 hover:text-white rounded-lg"
-              title="Admin"
-            >
-              {isAuthenticated ? (
-                <Shield className="w-5 h-5 text-emerald-400" />
-              ) : (
-                <Lock className="w-5 h-5" />
-              )}
-            </Link>
-
             <button
               type="button"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}

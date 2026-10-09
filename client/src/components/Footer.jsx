@@ -98,10 +98,6 @@ export const Footer = () => {
           <p>© {currentYear} {personalInfo.name}. All rights reserved.</p>
           <div className="flex items-center gap-2">
             <span>Built with React, Vite & Tailwind CSS</span>
-            <span>•</span>
-            <a href="/admin/login" className="text-slate-400 hover:text-accent-sky transition-colors">
-              Admin Portal
-            </a>
           </div>
         </div>
 

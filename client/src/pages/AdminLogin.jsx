@@ -49,11 +49,6 @@ export const AdminLogin = () => {
     }
   };
 
-  const fillDemoCredentials = () => {
-    setEmail('admin@portfolio.dev');
-    setPassword('Admin@2026!');
-  };
-
   return (
     <div className="min-h-screen bg-dark-950 flex flex-col justify-center items-center p-4 relative overflow-hidden">
       {/* Background Glows */}
@@ -182,29 +177,6 @@ export const AdminLogin = () => {
               )}
             </button>
           </form>
-
-          {/* Demo Helper Box */}
-          <div className="mt-6 pt-5 border-t border-white/10">
-            <div className="p-3.5 rounded-xl bg-white/5 border border-white/5 text-xs text-slate-400 space-y-2">
-              <div className="flex items-center justify-between">
-                <span className="font-mono text-[11px] text-accent-sky uppercase tracking-wider font-semibold">
-                  Default Seed Credentials
-                </span>
-                <button
-                  type="button"
-                  onClick={fillDemoCredentials}
-                  className="text-[11px] text-emerald-400 hover:underline font-mono"
-                >
-                  Click to Auto-fill
-                </button>
-              </div>
-              <p className="font-mono text-[11px] text-slate-300">
-                Email: <span className="text-white">admin@portfolio.dev</span>
-                <br />
-                Password: <span className="text-white">Admin@2026!</span>
-              </p>
-            </div>
-          </div>
 
         </div>
       </motion.div>
