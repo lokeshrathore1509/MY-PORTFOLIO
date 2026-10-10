@@ -211,4 +211,10 @@ export const personalInfo = {
   isAvailable: true,
 };
 
-export default portfolioData;
+export default {
+  initialProjectsData,
+  skillsData,
+  experienceData,
+  educationData,
+  personalInfo,
+};
