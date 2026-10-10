@@ -210,3 +210,5 @@ export const personalInfo = {
   availabilityText: "Available for new opportunities",
   isAvailable: true,
 };
+
+export default portfolioData;
