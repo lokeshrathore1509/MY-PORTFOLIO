@@ -13,6 +13,9 @@ const getSettings = async (req, res) => {
       let setting = await Setting.findOne();
       if (!setting) {
         setting = await Setting.create(defaultSettings);
+      } else if (setting.linkedinUrl === 'https://www.linkedin.com/in/lokeshrathore/' || setting.linkedinUrl === 'https://www.linkedin.com/in/lokeshrathore') {
+        setting.linkedinUrl = 'https://www.linkedin.com/in/lokesh-rathore-220lr4644';
+        await setting.save().catch(() => {});
       }
       return res.status(200).json({ success: true, data: setting });
     }

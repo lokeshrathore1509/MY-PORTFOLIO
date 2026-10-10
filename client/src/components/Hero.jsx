@@ -185,7 +185,11 @@ export const Hero = () => {
                 <span>GitHub</span>
               </a>
               <a
-                href={settings.linkedinUrl || personalInfo.socialLinks.linkedin || "https://www.linkedin.com/in/lokesh-rathore-220lr4644"}
+                href={
+                  settings.linkedinUrl && !settings.linkedinUrl.endsWith('/lokeshrathore') && !settings.linkedinUrl.endsWith('/lokeshrathore/')
+                    ? settings.linkedinUrl
+                    : (personalInfo.socialLinks.linkedin || "https://www.linkedin.com/in/lokesh-rathore-220lr4644")
+                }
                 target="_blank"
                 rel="noopener noreferrer"
                 className="p-2 rounded-lg bg-dark-800/80 hover:bg-white/10 text-slate-300 hover:text-white transition-colors border border-white/5 flex items-center gap-1.5"
