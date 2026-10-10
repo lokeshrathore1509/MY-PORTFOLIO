@@ -204,7 +204,7 @@ export const personalInfo = {
   resumeDownloadName: "Lokesh_Kumar_Rathore_Resume.pdf",
   socialLinks: {
     github: "https://github.com/lokeshrathore1509",
-    linkedin: "https://www.linkedin.com/in/lokeshrathore/",
+    linkedin: "https://www.linkedin.com/in/lokesh-rathore-220lr4644",
     email: "mailto:lokeshrathore1509@gmail.com",
   },
   availabilityText: "Available for new opportunities",

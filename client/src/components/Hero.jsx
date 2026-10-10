@@ -175,7 +175,7 @@ export const Hero = () => {
             >
               <span className="font-mono text-slate-500 uppercase tracking-wider text-[11px]">Connect:</span>
               <a
-                href="https://github.com/lokeshrathore1509"
+                href={settings.githubUrl || personalInfo.socialLinks.github || "https://github.com/lokeshrathore1509"}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="p-2 rounded-lg bg-dark-800/80 hover:bg-white/10 text-slate-300 hover:text-white transition-colors border border-white/5 flex items-center gap-1.5"
@@ -185,7 +185,7 @@ export const Hero = () => {
                 <span>GitHub</span>
               </a>
               <a
-                href="https://www.linkedin.com/in/lokeshrathore/"
+                href={settings.linkedinUrl || personalInfo.socialLinks.linkedin || "https://www.linkedin.com/in/lokesh-rathore-220lr4644"}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="p-2 rounded-lg bg-dark-800/80 hover:bg-white/10 text-slate-300 hover:text-white transition-colors border border-white/5 flex items-center gap-1.5"

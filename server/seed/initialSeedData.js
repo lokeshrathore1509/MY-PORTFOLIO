@@ -90,7 +90,7 @@ const defaultSettings = {
   shortBio: "I build responsive, interactive, and user-focused web applications using modern frontend technologies and full-stack tools.",
   email: "lokeshrathore1509@gmail.com",
   githubUrl: "https://github.com/lokeshrathore1509",
-  linkedinUrl: "https://www.linkedin.com/in/lokeshrathore/",
+  linkedinUrl: "https://www.linkedin.com/in/lokesh-rathore-220lr4644",
   phone: "+91 8318585916",
 };
 

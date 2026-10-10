@@ -257,4 +257,4 @@ If you have a free [Cloudinary](https://cloudinary.com) account:
 - **Internships**: Edunet Foundation (AICTE Collaboration) & CodSoft
 - **Email**: [lokeshrathore1509@gmail.com](mailto:lokeshrathore1509@gmail.com)
 - **GitHub**: [github.com/lokeshrathore1509](https://github.com/lokeshrathore1509)
-- **LinkedIn**: [linkedin.com/in/lokeshrathore](https://www.linkedin.com/in/lokeshrathore/)
+- **LinkedIn**: [linkedin.com/in/lokesh-rathore-220lr4644](https://www.linkedin.com/in/lokesh-rathore-220lr4644)

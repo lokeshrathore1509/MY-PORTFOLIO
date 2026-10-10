@@ -31,7 +31,7 @@ const settingSchema = new mongoose.Schema({
   },
   linkedinUrl: {
     type: String,
-    default: 'https://www.linkedin.com/in/lokeshrathore/',
+    default: 'https://www.linkedin.com/in/lokesh-rathore-220lr4644',
   },
   phone: {
     type: String,
