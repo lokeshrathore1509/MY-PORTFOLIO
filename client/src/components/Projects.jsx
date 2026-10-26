@@ -15,31 +15,65 @@ import { projectsAPI } from '../services/api';
 import ProjectModal from './ProjectModal';
 
 export const Projects = () => {
-  const [projects, setProjects] = useState(initialProjectsData);
+  // Initialize from cache or fallback data to guarantee all cards render instantly on first load
+  const [projects, setProjects] = useState(() => {
+    try {
+      if (typeof window !== 'undefined') {
+        const cached = localStorage.getItem('portfolio_projects_cache');
+        if (cached) {
+          const parsed = JSON.parse(cached);
+          if (Array.isArray(parsed) && parsed.length > 0) {
+            return parsed;
+          }
+        }
+      }
+    } catch (e) {
+      console.warn('Could not read projects from localStorage cache:', e);
+    }
+    return initialProjectsData;
+  });
+
   const [selectedFilter, setSelectedFilter] = useState('All');
   const [selectedProject, setSelectedProject] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
-  // Fetch live projects from backend
+  // Fetch live projects from backend with automatic retry for Render cold starts
   useEffect(() => {
     let isMounted = true;
-    const fetchProjects = async () => {
+    let retryTimeoutId = null;
+
+    const fetchProjects = async (retryCount = 0) => {
       try {
-        setIsLoading(true);
+        if (retryCount === 0) setIsLoading(true);
         const res = await projectsAPI.getAll(false);
         if (isMounted && res.success && res.data && res.data.length > 0) {
           setProjects(res.data);
+          try {
+            localStorage.setItem('portfolio_projects_cache', JSON.stringify(res.data));
+          } catch (e) {
+            // ignore localStorage quota errors
+          }
         }
       } catch (err) {
-        console.warn('Backend projects endpoint not reachable, displaying local fallback data.');
+        console.warn(`Backend projects request attempt ${retryCount + 1} failed (may be waking up):`, err.message);
+        // If initial attempt failed (common when free Render instance is waking up), retry up to 3 times
+        if (isMounted && retryCount < 3) {
+          retryTimeoutId = setTimeout(() => {
+            fetchProjects(retryCount + 1);
+          }, 4500);
+        }
       } finally {
-        if (isMounted) setIsLoading(false);
+        if (isMounted && retryCount === 0) {
+          setIsLoading(false);
+        }
       }
     };
 
     fetchProjects();
+
     return () => {
       isMounted = false;
+      if (retryTimeoutId) clearTimeout(retryTimeoutId);
     };
   }, []);
 
