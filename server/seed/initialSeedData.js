@@ -150,6 +150,10 @@ const defaultSettings = {
   githubUrl: "https://github.com/lokeshrathore1509",
   linkedinUrl: "https://www.linkedin.com/in/lokesh-rathore-220lr4644",
   phone: "+91 8318585916",
+  resumes: {
+    frontend: { url: "", publicId: null, originalName: "", updatedAt: null },
+    fullstack: { url: "", publicId: null, originalName: "", updatedAt: null },
+  },
 };
 
 module.exports = { initialProjects, defaultSettings };

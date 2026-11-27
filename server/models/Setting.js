@@ -1,5 +1,15 @@
 const mongoose = require('mongoose');
 
+const resumeFileSchema = new mongoose.Schema(
+  {
+    url: { type: String, default: '' },
+    publicId: { type: String, default: null },
+    originalName: { type: String, default: '' },
+    updatedAt: { type: Date, default: null },
+  },
+  { _id: false }
+);
+
 const settingSchema = new mongoose.Schema({
   availabilityText: {
     type: String,
@@ -36,6 +46,10 @@ const settingSchema = new mongoose.Schema({
   phone: {
     type: String,
     default: '+91 8318585916',
+  },
+  resumes: {
+    frontend: { type: resumeFileSchema, default: () => ({}) },
+    fullstack: { type: resumeFileSchema, default: () => ({}) },
   },
   updatedAt: {
     type: Date,

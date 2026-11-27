@@ -20,20 +20,38 @@ import {
   RefreshCw,
   X,
   FileText,
+  FileDown,
   Clock,
   ShieldAlert,
   Search
 } from 'lucide-react';
 import { Github } from '../components/Icons';
 import { useAuth } from '../context/AuthContext';
-import { projectsAPI, contactAPI, settingsAPI } from '../services/api';
+import { projectsAPI, contactAPI, settingsAPI, resolveAssetUrl } from '../services/api';
 import ProjectModal from '../components/ProjectModal';
+
+const RESUME_SLOTS = [
+  {
+    type: 'frontend',
+    title: 'Frontend Developer Resume',
+    badge: 'Frontend',
+    description: 'Shown as "Frontend Resume" download option on your Home page.',
+    badgeClass: 'text-accent-sky bg-accent-blue/10 border-accent-blue/20',
+  },
+  {
+    type: 'fullstack',
+    title: 'Full Stack Developer Resume',
+    badge: 'Full Stack',
+    description: 'Shown as "Full Stack Resume" download option on your Home page.',
+    badgeClass: 'text-accent-purple bg-accent-violet/10 border-accent-violet/20',
+  },
+];
 
 export const AdminDashboard = () => {
   const { admin, logout } = useAuth();
   const navigate = useNavigate();
 
-  const [activeTab, setActiveTab] = useState('projects'); // 'projects', 'messages', 'settings'
+  const [activeTab, setActiveTab] = useState('projects'); // 'projects', 'messages', 'resumes', 'settings'
   const [projects, setProjects] = useState([]);
   const [messages, setMessages] = useState([]);
   const [settings, setSettings] = useState({
@@ -46,7 +64,12 @@ export const AdminDashboard = () => {
     githubUrl: '',
     linkedinUrl: '',
     phone: '',
+    resumes: {
+      frontend: { url: '', originalName: '', updatedAt: null },
+      fullstack: { url: '', originalName: '', updatedAt: null },
+    },
   });
+  const [uploadingResumeType, setUploadingResumeType] = useState(null);
 
   const [isLoading, setIsLoading] = useState(true);
   const [feedback, setFeedback] = useState({ type: null, message: '' });
@@ -191,7 +214,7 @@ export const AdminDashboard = () => {
       formData.append('title', projectFormData.title.trim());
       formData.append('shortDescription', projectFormData.shortDescription.trim());
       formData.append('category', projectFormData.category);
-      
+
       const techArray = projectFormData.technologies
         .split(',')
         .map((t) => t.trim())
@@ -304,12 +327,56 @@ export const AdminDashboard = () => {
   const handleSaveSettings = async (e) => {
     e.preventDefault();
     try {
-      await settingsAPI.update(settings);
+      const res = await settingsAPI.update(settings);
+      if (res.data) {
+        setSettings(res.data);
+      }
       showNotification('success', 'Portfolio settings updated successfully.');
     } catch (err) {
       showNotification('error', err.message || 'Failed to save settings.');
     }
   };
+
+  // Resume Upload & Delete Handlers
+  const handleResumeUpload = async (type, file) => {
+    if (!file) return;
+    if (!file.name.toLowerCase().endsWith('.pdf') && file.type !== 'application/pdf') {
+      showNotification('error', 'Please select a valid PDF file.');
+      return;
+    }
+
+    try {
+      setUploadingResumeType(type);
+      const res = await settingsAPI.uploadResume(type, file);
+      if (res.data) {
+        setSettings(res.data);
+      }
+      showNotification('success', res.message || 'Resume uploaded successfully.');
+    } catch (err) {
+      showNotification('error', err.message || 'Failed to upload resume.');
+    } finally {
+      setUploadingResumeType(null);
+    }
+  };
+
+  const handleDeleteResume = async (type) => {
+    try {
+      setUploadingResumeType(type);
+      const res = await settingsAPI.deleteResume(type);
+      if (res.data) {
+        setSettings(res.data);
+      }
+      showNotification('success', res.message || 'Resume removed.');
+    } catch (err) {
+      showNotification('error', err.message || 'Failed to remove resume.');
+    } finally {
+      setUploadingResumeType(null);
+    }
+  };
+
+  const uploadedResumeCount = RESUME_SLOTS.filter((slot) =>
+    Boolean(settings?.resumes?.[slot.type]?.url)
+  ).length;
 
   // Filtered projects by search query
   const filteredProjects = projects.filter((p) =>
@@ -356,17 +423,16 @@ export const AdminDashboard = () => {
 
       {/* Main Container */}
       <div className="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-8 flex-1">
-        
+
         {/* Floating Feedback Notification */}
         {feedback.message && (
           <motion.div
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
-            className={`mb-6 p-4 rounded-xl text-xs sm:text-sm flex items-center gap-2 ${
-              feedback.type === 'error'
+            className={`mb-6 p-4 rounded-xl text-xs sm:text-sm flex items-center gap-2 ${feedback.type === 'error'
                 ? 'bg-rose-500/10 border border-rose-500/20 text-rose-300'
                 : 'bg-emerald-500/10 border border-emerald-500/20 text-emerald-300'
-            }`}
+              }`}
           >
             {feedback.type === 'error' ? (
               <AlertCircle className="w-4 h-4 flex-shrink-0" />
@@ -406,11 +472,10 @@ export const AdminDashboard = () => {
           <div className="flex items-center gap-2">
             <button
               onClick={() => setActiveTab('projects')}
-              className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-medium transition-colors flex items-center gap-2 ${
-                activeTab === 'projects'
+              className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-medium transition-colors flex items-center gap-2 ${activeTab === 'projects'
                   ? 'bg-gradient-to-r from-accent-blue to-accent-violet text-white shadow-glow-blue'
                   : 'text-slate-400 hover:text-white hover:bg-white/5'
-              }`}
+                }`}
             >
               <Layers className="w-4 h-4" />
               <span>Projects ({projects.length})</span>
@@ -418,23 +483,33 @@ export const AdminDashboard = () => {
 
             <button
               onClick={() => setActiveTab('messages')}
-              className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-medium transition-colors flex items-center gap-2 ${
-                activeTab === 'messages'
+              className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-medium transition-colors flex items-center gap-2 ${activeTab === 'messages'
                   ? 'bg-gradient-to-r from-accent-blue to-accent-violet text-white shadow-glow-blue'
                   : 'text-slate-400 hover:text-white hover:bg-white/5'
-              }`}
+                }`}
             >
               <Mail className="w-4 h-4" />
               <span>Inquiries ({messages.length})</span>
             </button>
 
             <button
-              onClick={() => setActiveTab('settings')}
-              className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-medium transition-colors flex items-center gap-2 ${
-                activeTab === 'settings'
+              onClick={() => setActiveTab('resumes')}
+              className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-medium transition-colors flex items-center gap-2 ${activeTab === 'resumes'
                   ? 'bg-gradient-to-r from-accent-blue to-accent-violet text-white shadow-glow-blue'
                   : 'text-slate-400 hover:text-white hover:bg-white/5'
-              }`}
+                }`}
+              id="admin-tab-resumes"
+            >
+              <FileText className="w-4 h-4" />
+              <span>Resumes ({uploadedResumeCount}/2)</span>
+            </button>
+
+            <button
+              onClick={() => setActiveTab('settings')}
+              className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-medium transition-colors flex items-center gap-2 ${activeTab === 'settings'
+                  ? 'bg-gradient-to-r from-accent-blue to-accent-violet text-white shadow-glow-blue'
+                  : 'text-slate-400 hover:text-white hover:bg-white/5'
+                }`}
             >
               <Settings className="w-4 h-4" />
               <span>Site Settings</span>
@@ -507,11 +582,10 @@ export const AdminDashboard = () => {
 
                     <div className="absolute top-2 right-2">
                       <span
-                        className={`px-2 py-0.5 rounded text-[10px] font-mono ${
-                          proj.isPublished !== false
+                        className={`px-2 py-0.5 rounded text-[10px] font-mono ${proj.isPublished !== false
                             ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'
                             : 'bg-slate-700/50 text-slate-400 border border-slate-600'
-                        }`}
+                          }`}
                       >
                         {proj.isPublished !== false ? 'Published' : 'Draft'}
                       </span>
@@ -613,9 +687,8 @@ export const AdminDashboard = () => {
                 {messages.map((msg) => (
                   <div
                     key={msg._id}
-                    className={`glass-card p-5 rounded-2xl border transition-all ${
-                      msg.read ? 'border-white/5 opacity-80' : 'border-accent-sky/30 shadow-glow-blue'
-                    }`}
+                    className={`glass-card p-5 rounded-2xl border transition-all ${msg.read ? 'border-white/5 opacity-80' : 'border-accent-sky/30 shadow-glow-blue'
+                      }`}
                   >
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3">
                       <div>
@@ -669,7 +742,139 @@ export const AdminDashboard = () => {
           </div>
         )}
 
-        {/* TAB 3: SITE SETTINGS */}
+        {/* TAB 3: RESUMES MANAGEMENT */}
+        {activeTab === 'resumes' && (
+          <div className="space-y-6">
+            <div>
+              <h3 className="text-xl font-display font-bold text-white mb-1">
+                Resume Management
+              </h3>
+              <p className="text-xs sm:text-sm text-slate-400">
+                Upload separate PDF resumes for Frontend and Full Stack roles. Uploaded resumes automatically appear as download options on your Home page.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {RESUME_SLOTS.map((slot) => {
+                const current = settings?.resumes?.[slot.type];
+                const isUploaded = Boolean(current?.url);
+                const isBusy = uploadingResumeType === slot.type;
+
+                return (
+                  <div
+                    key={slot.type}
+                    className="glass-card p-6 rounded-2xl border border-white/10 flex flex-col justify-between gap-5"
+                  >
+                    <div className="space-y-3">
+                      <div className="flex items-center justify-between gap-2">
+                        <span className={`px-2.5 py-1 rounded-full text-[11px] font-mono border ${slot.badgeClass}`}>
+                          {slot.badge}
+                        </span>
+                        <span
+                          className={`px-2.5 py-1 rounded-full text-[11px] font-mono border ${isUploaded
+                              ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30'
+                              : 'bg-slate-700/40 text-slate-400 border-slate-600/40'
+                            }`}
+                        >
+                          {isUploaded ? 'Active on Home Page' : 'Not Uploaded'}
+                        </span>
+                      </div>
+
+                      <div>
+                        <h4 className="text-lg font-display font-bold text-white">
+                          {slot.title}
+                        </h4>
+                        <p className="text-xs text-slate-400 mt-1">{slot.description}</p>
+                      </div>
+
+                      <div className="p-3.5 rounded-xl bg-dark-950/70 border border-white/5 text-xs">
+                        {isUploaded ? (
+                          <div className="space-y-1">
+                            <p className="text-slate-200 font-medium flex items-center gap-2 truncate">
+                              <FileText className="w-4 h-4 text-accent-sky flex-shrink-0" />
+                              <span className="truncate">{current.originalName || `${slot.badge} Resume.pdf`}</span>
+                            </p>
+                            {current.updatedAt && (
+                              <p className="text-[11px] font-mono text-slate-500 flex items-center gap-1.5">
+                                <Clock className="w-3 h-3" />
+                                Updated {new Date(current.updatedAt).toLocaleString()}
+                              </p>
+                            )}
+                          </div>
+                        ) : (
+                          <p className="text-slate-500 font-mono">No PDF uploaded yet.</p>
+                        )}
+                      </div>
+                    </div>
+
+                    <div className="flex flex-wrap items-center gap-2.5 pt-2 border-t border-white/5">
+                      <label
+                        className={`px-4 py-2.5 rounded-xl bg-gradient-to-r from-accent-blue to-accent-violet text-white text-xs font-medium flex items-center gap-2 shadow-glow-blue cursor-pointer transition-opacity ${isBusy ? 'opacity-60 pointer-events-none' : 'hover:opacity-90'
+                          }`}
+                      >
+                        <Upload className="w-4 h-4" />
+                        <span>
+                          {isBusy
+                            ? 'Uploading...'
+                            : isUploaded
+                              ? 'Replace PDF'
+                              : `Upload ${slot.badge} PDF`}
+                        </span>
+                        <input
+                          type="file"
+                          accept="application/pdf,.pdf"
+                          className="hidden"
+                          disabled={isBusy}
+                          id={`resume-upload-${slot.type}`}
+                          onChange={(e) => {
+                            const file = e.target.files?.[0];
+                            e.target.value = '';
+                            if (file) handleResumeUpload(slot.type, file);
+                          }}
+                        />
+                      </label>
+
+                      {isUploaded && (
+                        <>
+                          <a
+                            href={resolveAssetUrl(current.url)}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="px-3.5 py-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-slate-200 text-xs font-medium flex items-center gap-1.5 border border-white/10"
+                          >
+                            <ExternalLink className="w-3.5 h-3.5" />
+                            <span>Preview</span>
+                          </a>
+
+                          <a
+                            href={settingsAPI.getResumeDownloadUrl(slot.type)}
+                            download
+                            className="px-3.5 py-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-slate-200 text-xs font-medium flex items-center gap-1.5 border border-white/10"
+                          >
+                            <FileDown className="w-3.5 h-3.5 text-accent-sky" />
+                            <span>Download</span>
+                          </a>
+
+                          <button
+                            type="button"
+                            onClick={() => handleDeleteResume(slot.type)}
+                            disabled={isBusy}
+                            className="p-2.5 rounded-xl bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 border border-rose-500/20 ml-auto disabled:opacity-50"
+                            title={`Remove ${slot.title}`}
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </button>
+                        </>
+                      )}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
+
+        {/* TAB 4: SITE SETTINGS */}
         {activeTab === 'settings' && (
           <div className="max-w-2xl">
             <div className="glass-card p-6 sm:p-8 rounded-2xl border border-white/10">

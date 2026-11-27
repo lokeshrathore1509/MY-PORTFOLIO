@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import {
-  FileDown,
   ArrowRight,
   Sparkles,
   Terminal,
@@ -13,25 +12,29 @@ import {
   Cpu
 } from 'lucide-react';
 import { Github, Linkedin } from './Icons';
+import ResumeDownloadButtons from './ResumeDownloadButtons';
 import { personalInfo } from '../data/portfolioData';
 import { settingsAPI } from '../services/api';
 
-export const Hero = () => {
-  const [settings, setSettings] = useState(personalInfo);
+export const Hero = ({ settings: propSettings }) => {
+  const [fetchedSettings, setFetchedSettings] = useState(null);
   const [activeTab, setActiveTab] = useState('code');
 
   useEffect(() => {
-    // Attempt to load dynamic settings from backend
+    if (propSettings !== undefined) return;
+    // Standalone fallback if Hero is rendered without Home passing settings
     settingsAPI.get()
       .then((res) => {
         if (res.success && res.data) {
-          setSettings((prev) => ({ ...prev, ...res.data }));
+          setFetchedSettings(res.data);
         }
       })
       .catch(() => {
         // Fallback gracefully to default personalInfo
       });
-  }, []);
+  }, [propSettings]);
+
+  const settings = { ...personalInfo, ...(propSettings ?? fetchedSettings ?? {}) };
 
   return (
     <section
@@ -43,7 +46,7 @@ export const Hero = () => {
         <div className="absolute top-1/4 left-1/4 -translate-x-1/2 -translate-y-1/2 w-72 h-72 md:w-96 md:h-96 bg-accent-blue/15 rounded-full blur-[100px] animate-blob" />
         <div className="absolute top-1/3 right-1/4 w-72 h-72 md:w-96 md:h-96 bg-accent-violet/15 rounded-full blur-[110px] animate-blob [animation-delay:2s]" />
         <div className="absolute bottom-1/4 left-1/2 -translate-x-1/2 w-64 h-64 md:w-80 md:h-80 bg-accent-cyan/10 rounded-full blur-[90px] animate-blob [animation-delay:4s]" />
-        
+
         {/* Subtle geometric dot grid pattern */}
         <div
           className="absolute inset-0 opacity-[0.03]"
@@ -56,10 +59,10 @@ export const Hero = () => {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
-          
+
           {/* Left Column: Headlines & CTAs */}
           <div className="lg:col-span-7 flex flex-col items-start text-left">
-            
+
             {/* Availability Indicator Badge */}
             <motion.div
               initial={{ opacity: 0, y: 15 }}
@@ -144,16 +147,8 @@ export const Hero = () => {
                 <ArrowRight className="w-4 h-4" />
               </a>
 
-              {/* Download Resume */}
-              <a
-                href="/assets/Lokesh_Kumar_Rathore_Resume.pdf"
-                download="Lokesh_Kumar_Rathore_Resume.pdf"
-                className="px-6 py-3 rounded-xl glass-card hover:bg-white/10 text-white font-medium text-sm flex items-center justify-center gap-2 border border-white/10 hover:border-accent-sky/40 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] w-full sm:w-auto shadow-sm"
-                id="hero-btn-resume"
-              >
-                <FileDown className="w-4 h-4 text-accent-sky" />
-                <span>Download Resume</span>
-              </a>
+              {/* Download Resume(s) */}
+              <ResumeDownloadButtons resumes={settings.resumes} variant="hero" />
 
               {/* Contact Me */}
               <a
@@ -219,7 +214,7 @@ export const Hero = () => {
 
               {/* Code Terminal Window Card */}
               <div className="relative glass-card rounded-2xl overflow-hidden border border-white/15 shadow-2xl bg-dark-950/90 backdrop-blur-xl">
-                
+
                 {/* Window Titlebar */}
                 <div className="px-4 py-3 bg-dark-900/80 border-b border-white/10 flex items-center justify-between">
                   <div className="flex items-center gap-2">
@@ -284,7 +279,7 @@ export const Hero = () => {
                       <span className="text-emerald-300">"Building fast, human-centric web apps"</span>
                     </p>
                     <p>{'};'}</p>
-                    
+
                     <div className="pt-2 flex items-center gap-2 text-slate-500">
                       <span className="text-accent-violet">❯</span>
                       <span className="text-slate-300">portfolio.renderExperience()</span>

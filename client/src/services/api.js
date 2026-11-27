@@ -20,6 +20,17 @@ const getApiBaseUrl = () => {
 
 const API_BASE_URL = getApiBaseUrl();
 
+export const getBackendOrigin = () => API_BASE_URL.replace(/\/api\/?$/, '');
+
+export const resolveAssetUrl = (pathOrUrl) => {
+  if (!pathOrUrl) return '';
+  if (/^https?:\/\//i.test(pathOrUrl)) return pathOrUrl;
+  if (pathOrUrl.startsWith('/uploads/')) {
+    return `${getBackendOrigin()}${pathOrUrl}`;
+  }
+  return pathOrUrl;
+};
+
 const api = axios.create({
   baseURL: API_BASE_URL,
   withCredentials: true, // Enables HTTP-only cookies
@@ -134,6 +145,19 @@ export const settingsAPI = {
     const res = await api.put('/settings', data);
     return res.data;
   },
+  uploadResume: async (type, file) => {
+    const formData = new FormData();
+    formData.append('resume', file);
+    const res = await api.post(`/settings/resume/${type}`, formData, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    });
+    return res.data;
+  },
+  deleteResume: async (type) => {
+    const res = await api.delete(`/settings/resume/${type}`);
+    return res.data;
+  },
+  getResumeDownloadUrl: (type) => `${API_BASE_URL}/settings/resume/${type}/download`,
 };
 
 export default api;

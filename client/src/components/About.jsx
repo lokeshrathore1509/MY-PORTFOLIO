@@ -5,15 +5,14 @@ import {
   Sparkles,
   Layout,
   Server,
-  FileDown,
   CheckCircle,
   BrainCircuit,
   Compass,
   Code
 } from 'lucide-react';
-import { personalInfo } from '../data/portfolioData';
+import ResumeDownloadButtons from './ResumeDownloadButtons';
 
-export const About = () => {
+export const About = ({ settings }) => {
   const highlightCards = [
     {
       icon: <GraduationCap className="w-5 h-5 text-accent-sky" />,
@@ -126,15 +125,7 @@ export const About = () => {
 
               {/* Action buttons inside About */}
               <div className="pt-4 flex flex-wrap items-center gap-4 border-t border-white/5">
-                <a
-                  href="/assets/Lokesh_Kumar_Rathore_Resume.pdf"
-                  download="Lokesh_Kumar_Rathore_Resume.pdf"
-                  className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-accent-blue to-accent-violet text-white text-xs sm:text-sm font-medium flex items-center gap-2 shadow-glow-blue hover:opacity-95 transition-opacity"
-                  id="about-download-resume"
-                >
-                  <FileDown className="w-4 h-4" />
-                  <span>Download Resume (PDF)</span>
-                </a>
+                <ResumeDownloadButtons resumes={settings?.resumes} variant="about" />
 
                 <a
                   href="#contact"
